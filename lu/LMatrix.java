@@ -11,7 +11,7 @@ public class LMatrix extends Matrix {
 	}
 
 	@Override
-	public int getColumSize() {
+	public int getColumnSize() {
 		int row = this.getRowSize();
 		return this.elements[row - 1].length;
 	}

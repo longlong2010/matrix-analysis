@@ -10,7 +10,7 @@ public class Matrix {
 		return this.elements[i][j];
 	}
 
-	public int getColumSize() {
+	public int getColumnSize() {
 		return this.elements[0].length;
 	}
 
@@ -20,13 +20,14 @@ public class Matrix {
 
 	public void print() {
 		int row = this.getRowSize();
-		int col = this.getColumSize();
+		int col = this.getColumnSize();
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
-				System.out.printf("%g\t", this.get(i, j));
+				System.out.printf("%g ", this.get(i, j));
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public Matrix() {
