@@ -35,16 +35,12 @@ public class LU {
 	}
 
 	private LU(int m, int n) {
-		this.l = new LMatrix(m, n);
+		this.l = new LMatrix(m, m);
 		this.u = new UMatrix(m, n);
 	}
 
 	public static void main(String[] args) {
-		Matrix m = new Matrix(2, 3);
-		m.set(0, 0, 2);
-		m.set(1, 0, 1);
-		m.set(0, 1, 1);
-		m.set(1, 1, 1);
+		Matrix m = Matrix.loadMatrix(args[0]);
 		m.print();
 		LU lu = LU.LUDecomposition(m);
 		lu.getL().print();
