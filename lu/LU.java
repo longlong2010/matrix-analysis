@@ -16,10 +16,12 @@ public class LU {
 			lu.l.set(k, k, 1);
 
 			for (int i = k + 1; i < row; i++) {
-				lu.l.set(i, k, m.get(i, k) / m.get(k, k));
+				m.set(i, k, m.get(i, k) / m.get(k, k));
+				lu.l.set(i, k, m.get(i, k));
 
 				for (int j = k + 1; j < col; j++) {
-					lu.u.set(i, j, lu.u.get(i, j) - lu.l.get(i, k) * lu.u.get(k, j));
+					m.set(i, j, m.get(i, j) - lu.l.get(i, k) * m.get(k, j));
+					lu.u.set(i, j, m.get(i, j));
 				}
 			}
 		}
