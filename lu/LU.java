@@ -20,9 +20,10 @@ public class LU {
 				lu.u.set(i, j, s.get(i, j));
 			}
 		}
-		for (int k = 0; k < row; k++) {
+		for (int k = 0; k < col; k++) {
 			if (s.get(k, k) == 0) {
-				for (int h = k; h < row; h++) {
+				int h = k;
+				for (; h < row; h++) {
 					if (s.get(h, h) != 0) {
 						for (int l = 0; l < col; l++) {
 							double v2 = s.get(k, l);
@@ -38,6 +39,9 @@ public class LU {
 						}
 						break;
 					}
+				}
+				if (h == row - k) {
+				
 				}
 			}
 
