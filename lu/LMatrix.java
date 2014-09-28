@@ -13,7 +13,7 @@ public class LMatrix extends Matrix {
 	@Override
 	public int getColumnSize() {
 		int row = this.getRowSize();
-		return this.elements[row - 1].length;
+		return row > 0 ? this.elements[row - 1].length : 0;
 	}
 
 	public LMatrix(int m, int n) {

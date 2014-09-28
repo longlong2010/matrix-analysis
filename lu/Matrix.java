@@ -15,7 +15,7 @@ public class Matrix {
 	}
 
 	public int getColumnSize() {
-		return this.elements[0].length;
+		return this.elements.length > 0 ? this.elements[0].length : 0;
 	}
 
 	public int getRowSize() {
@@ -75,7 +75,7 @@ public class Matrix {
 	}
 	
 	public Matrix() {
-	
+		this.elements = new double[0][];	
 	}
 
 	public Matrix(int m, int n) {
