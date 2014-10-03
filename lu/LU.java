@@ -147,6 +147,7 @@ public class LU {
 				b.print();
 
 				Matrix x = lu.solve(b);
+				System.out.println("x:");
 				x.print();
 			}
 		} catch (LUException e) {
