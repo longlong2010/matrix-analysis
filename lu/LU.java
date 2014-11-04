@@ -1,3 +1,9 @@
+package lu;
+
+import matrix.LMatrix;
+import matrix.UMatrix;
+import matrix.Matrix;
+
 public class LU {
 	
 	private LMatrix l;

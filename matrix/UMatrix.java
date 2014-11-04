@@ -1,3 +1,5 @@
+package matrix;
+
 public class UMatrix extends Matrix {
 
 	public void set(int i, int j, double v) {
