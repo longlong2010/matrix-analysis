@@ -16,13 +16,62 @@ public class QR {
 	public static QR HouseholderQRDecomposition(Matrix m) throws QRException {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
+		Matrix u = new Matrix(row, col);
 		QR qr = new QR(row, col);
+
+		int size = Math.min(row, col);
+
+		for (int i = 0; i < size; i++) {
+			qr.q.set(i, i, 1);
+		}
+
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				u.set(i, j, m.get(i, j));	
+			}
+		}
+
 		for (int i = 0; i < col; i++) {
-			Vector v = new Vector(row - i);
-			for (int k = i; k < row; k++) {
-				v.set(k, m.get(k, i));
+			int vsize = row - i;
+			Vector v = new Vector(vsize);
+			for (int j = i; j < row; j++) {
+				v.set(j - i, u.get(j, i));		
+			}
+			double x1 = v.get(0);
+			
+			v.set(0, x1 + Math.signum(x1) * v.length());
+			double l = v.length();
+			for (int j = 0; j < vsize; j++) {
+				v.set(j, v.get(j) / l);
 			}
 
+			for (int j = i; j < col; j++) {
+				double s = 0;
+				for (int k = i; k < row; k++) {
+					s += v.get(k - i) * u.get(k, j);
+				}
+				
+				for (int k = i; k < row; k++) {
+					u.set(k, j, u.get(k, j) -  2 * v.get(k - i) * s);
+				}
+			}
+
+			for (int j = 0; j < col; j++) {
+				double s = 0;
+				for (int k = i; k < row; k++) {
+					s += v.get(k - i) * qr.q.get(j, k);
+				}
+
+				for (int k = i; k < row; k++) {
+					qr.q.set(j, k, qr.q.get(j, k) -  2 * v.get(k - i) * s);
+				}
+			}
+		}
+
+		for (int i = 0; i < row; i++) {
+			for (int j = i; j < col; j++) {
+				qr.r.set(i, j, u.get(i, j));
+			}
 		}
 		return qr;
 	}
@@ -136,6 +185,10 @@ public class QR {
 			qr.getR().print();
 			
 			qr = QR.GivensQRDecomposition(m);
+			qr.getQ().print();
+			qr.getR().print();
+			
+			qr = QR.HouseholderQRDecomposition(m);
 			qr.getQ().print();
 			qr.getR().print();
 		} catch (QRException ex) {
