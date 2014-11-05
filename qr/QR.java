@@ -17,15 +17,66 @@ public class QR {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
 		QR qr = new QR(row, col);
-		
+		for (int i = 0; i < col; i++) {
+			Vector v = new Vector(row - i);
+			for (int k = i; k < row; k++) {
+				v.set(k, m.get(k, i));
+			}
+
+		}
 		return qr;
 	}
 
 	public static QR GivensQRDecomposition(Matrix m) throws QRException {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
+		Matrix u = new Matrix(row, col);
 		QR qr = new QR(row, col);
+		
+		int size = Math.min(row, col);
+		
+		for (int i = 0; i < size; i++) {
+			qr.q.set(i, i, 1);
+		}
 
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				u.set(i, j, m.get(i, j));	
+			}
+		}
+
+		for (int i = 1; i < size; i++) {
+			for (int j = 0; j < i; j++) {
+				double y = u.get(i, j);
+				if (y == 0) {
+					continue;
+				}
+				double x = u.get(j, j);
+
+				double l = Math.sqrt(x * x + y * y);
+
+				double c = x / l;
+				double s = y / l;
+				
+				for (int k = 0; k < col; k++) {
+					x = u.get(j, k);
+					y = u.get(i, k);
+					u.set(j, k, c * x + s * y);
+					u.set(i, k, -s * x + c * y);
+
+					x = qr.q.get(k, j);
+					y = qr.q.get(k, i);
+					qr.q.set(k, j, c * x + s * y);
+					qr.q.set(k, i, -s * x + c * y);
+				}
+			}
+		}
+		
+		for (int i = 0; i < row; i++) {
+			for (int j = i; j < col; j++) {
+				qr.r.set(i, j, u.get(i, j));	
+			}
+		}
 		return qr;
 	}
 
@@ -60,8 +111,8 @@ public class QR {
 	}
 
 	private QR(int m, int n) {
-		this.q = new Matrix(n, n);
-		this.r = new UMatrix(m, n);
+		this.q = new Matrix(m, n);
+		this.r = new UMatrix(n, n);
 	}
 	
 	public Matrix getQ() {
@@ -81,6 +132,10 @@ public class QR {
 		m.print();
 		try {
 			QR qr = QR.SchmidtQRDecomposition(m);
+			qr.getQ().print();
+			qr.getR().print();
+			
+			qr = QR.GivensQRDecomposition(m);
 			qr.getQ().print();
 			qr.getR().print();
 		} catch (QRException ex) {
