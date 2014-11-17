@@ -17,7 +17,7 @@ public class QR {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
 		Matrix u = new Matrix(row, col);
-		QR qr = new QR(row, col);
+		QR qr = new QR(row, row, col);
 
 		int size = Math.min(row, col);
 
@@ -80,7 +80,7 @@ public class QR {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
 		Matrix u = new Matrix(row, col);
-		QR qr = new QR(row, col);
+		QR qr = new QR(row, row, col);
 		
 		int size = Math.min(row, col);
 		
@@ -132,7 +132,7 @@ public class QR {
 	public static QR SchmidtQRDecomposition(Matrix m) throws QRException {
 		int row = m.getRowSize();
 		int col = m.getColumnSize();
-		QR qr = new QR(row, col);
+		QR qr = new QR(row, col, col);
 		for (int i = 0; i < col; i++) {
 			Vector v = new Vector(row);
 			for (int k = 0; k < row; k++) {
@@ -159,9 +159,9 @@ public class QR {
 		return qr;
 	}
 
-	private QR(int m, int n) {
+	private QR(int m, int n, int l) {
 		this.q = new Matrix(m, n);
-		this.r = new UMatrix(n, n);
+		this.r = new UMatrix(n, l);
 	}
 	
 	public Matrix getQ() {
