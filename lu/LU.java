@@ -32,13 +32,22 @@ public class LU {
 				int h = k;
 				for (; h < row; h++) {
 					if (s.get(h, h) != 0) {
-						for (int l = 0; l < col; l++) {
+						//L Matrix
+						for (int l = 0; l < k; l++) {
+							double v2 = lu.l.get(k, l);
+							lu.l.set(k, l, lu.l.get(h, l));
+							lu.l.set(h, l, v2);
+						}
+						//U Matrix
+						for (int l = k; l < col; l++) {
 							double v2 = s.get(k, l);
 							s.set(k, l, s.get(h, l));
 							lu.u.set(k, l, s.get(h, l));
 							s.set(h, l, v2);
 							lu.u.set(h, l, v2);
-							//P Matrix
+						}
+						//P Matrix
+						for (int l = 0; l < col; l++) {
 							if (l < row && lu.p.get(k, l) != lu.p.get(h, l)) {
 								double v3 = lu.p.get(k, l);
 								lu.p.set(k, l, lu.p.get(h, l));
